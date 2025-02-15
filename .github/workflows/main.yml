@@ -4,32 +4,39 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Code Checkout
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: SonarQube Analysis
-        uses: sonarsource/sonarqube-scan-action@master
+      # Step 2: Code Review with SonarQube
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2.0
         with:
-          projectBaseDir: .
-          args: >
-            -Dsonar.projectKey=my_project
-            -Dsonar.organization=my_org
-            -Dsonar.host.url=https://sonarcloud.io
+          projectBaseDir: './'
         env:
+          SONAR_HOST_URL: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: Bala-AZD_DevSec
 
-      - name: Login to DockerHub
+      # Step 3: Docker Login
+      - name: Docker Login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build and Push Docker Image
-        run: |
-          docker build -t my-docker-repo/my-app:latest .
-          docker push my-docker-repo/my-app:latest
+      # Step 4: Docker Build and Push
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }} .
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
