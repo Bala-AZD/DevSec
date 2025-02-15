@@ -44,5 +44,5 @@ jobs:
     steps:
       - name: Deploy Docker Container
         run: |
-          docker pull my-docker-repo/my-app:latest
-          docker run -d -p 80:80 my-docker-repo/my-app:latest
+          docker pull balap340/my-app:latest
+          docker run -d -p 80:80 balap340/my-app:latest
