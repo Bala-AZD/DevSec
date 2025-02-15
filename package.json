@@ -1,0 +1,22 @@
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "CI/CD Pipeline Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo 'Build process here'",
+    "test": "echo 'Run your tests here'"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "Tejaswi",
+  "license": "MIT"
+}
