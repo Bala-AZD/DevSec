@@ -41,6 +41,19 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
+          
+      - name: Install Minikube
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/
+
+      - name: Start Minikube
+        run: minikube start --driver=docker
+
+      - name: Apply Kubernetes Manifests
+        run: kubectl apply -f k8s/hello-world-deployment.yaml
+
       - name: Apply Kubernetes Deployment
         run: kubectl apply -f k8s/hello-world-deployment.yaml
 
