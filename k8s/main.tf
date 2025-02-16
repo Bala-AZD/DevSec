@@ -8,7 +8,7 @@ resource "kubernetes_deployment" "hello_world" {
   }
 
   spec {
-    replicas = 3
+    replicas = 0
 
     selector {
       match_labels = {
